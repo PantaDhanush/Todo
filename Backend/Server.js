@@ -21,8 +21,6 @@ db.connect(err => {
 
 app.use(cors());
 app.use(express.json());
-
-// 📥 Get all todo items
 app.get('/', (req, res) => {
   db.query('SELECT * FROM todoItems', (err, result) => {
     if (err) {
@@ -32,8 +30,6 @@ app.get('/', (req, res) => {
     res.json(result);
   });
 });
-
-// ➕ Add a new todo
 app.post('/additem', (req, res) => {
   const text = req.body.text;
   db.query('INSERT INTO todoItems (itemDescription) VALUES (?)', [text], (err, result) => {
@@ -45,8 +41,6 @@ app.post('/additem', (req, res) => {
     res.json({ message: "Item added successfully" });
   });
 });
-
-// ✏️ Edit an existing todo
 app.put('/edit-item', (req, res) => {
   const { ID, itemDescription } = req.body;
   db.query(
@@ -62,8 +56,6 @@ app.put('/edit-item', (req, res) => {
     }
   );
 });
-
-// ❌ Delete a todo
 app.delete('/delete-item', (req, res) => {
   const { ID } = req.body;
   db.query('DELETE FROM todoItems WHERE ID = ?', [ID], (err, result) => {
@@ -75,8 +67,6 @@ app.delete('/delete-item', (req, res) => {
     res.json({ message: "Item deleted successfully" });
   });
 });
-
-// 🚀 Start server
 app.listen(3000, () => {
   console.log("🚀 Server running at http://localhost:3000");
 });
